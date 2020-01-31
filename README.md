@@ -2,7 +2,7 @@
 
 A simple django application that can speedup your development by generating code from models.
 
-Specify a different application structure to process by entering the full path to the folder in settings.py variable BOOTSRAP_FOLDER
+Specify a different application structure to process by entering the full path to the folder in settings.py variable BOOTSTRAP_FOLDER
 
 Quick start
 -----------
