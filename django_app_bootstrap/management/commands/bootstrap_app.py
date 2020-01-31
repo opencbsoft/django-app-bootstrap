@@ -44,12 +44,11 @@ def process_template(console, app_name, context, bootstrap_folder, path):
     dest_dir = os.path.join(settings.BASE_DIR, app_name)
     dest_file = source_file[1:].replace('.html', '.py')
     console.stdout.write(('Processing {} ...'.format(dest_file)))
-    os.makedirs(os.path.dirname(os.path.join(dest_dir, dest_file)), exist_ok=True)
-
     if os.path.exists(os.path.join(dest_dir, dest_file)):
         if not query_yes_no(console, '{} exists, do you want to overwrite?'.format(dest_file), default='no'):
             process = False
     if process:
+        os.makedirs(os.path.dirname(os.path.join(dest_dir, dest_file)), exist_ok=True)
         context = Context(context)
         with open(path) as f:
             file_content = f.read()
@@ -115,13 +114,16 @@ class Command(BaseCommand):
                     if 'Many' not in str(field):
                         full_model['fields'].append(field_name)
                 context['models'].append(full_model)
-        bootstrap_folder = getattr(settings, 'BOOTSRAP_FOLDER', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bootstrap_files'))
+        bootstrap_folder = getattr(settings, 'BOOTSRAP_FOLDER', os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'bootstrap_files'))
         for item in os.listdir(bootstrap_folder):
-            if os.path.isdir(os.path.join(bootstrap_folder, item)):
-                subdir = os.path.join(bootstrap_folder, item)
-                for file in os.listdir(subdir):
-                    process_template(self, context['selected_app'], context, bootstrap_folder, os.path.join(subdir, file))
-            else:
-                process_template(self, context['selected_app'], context, bootstrap_folder, os.path.join(bootstrap_folder, item))
+            if not '__pycache__' in item:
+                if os.path.isdir(os.path.join(bootstrap_folder, item)):
+                    subdir = os.path.join(bootstrap_folder, item)
+                    if not '__pycache__' in subdir:
+                        for file in os.listdir(subdir):
+                            if not '__pycache__' in file:
+                                process_template(self, context['selected_app'], context, bootstrap_folder, os.path.join(subdir, file))
+                else:
+                    process_template(self, context['selected_app'], context, bootstrap_folder, os.path.join(bootstrap_folder, item))
         # #print(bootstrap_files)
         self.stdout.write(self.style.SUCCESS(f'Finished bootstrapping app structure'))
