@@ -42,7 +42,10 @@ def process_template(console, app_name, context, bootstrap_folder, path):
     process = True
     source_file = path.replace(bootstrap_folder, '')
     dest_dir = os.path.join(settings.BASE_DIR, app_name)
-    dest_file = source_file[1:].replace('.html', '.py')
+    if 'templates' not in path:
+        dest_file = source_file[1:].replace('.html', '.py')
+    else:
+        dest_file = source_file[1:]
     console.stdout.write(('Processing {} ...'.format(dest_file)))
     if os.path.exists(os.path.join(dest_dir, dest_file)):
         if not query_yes_no(console, '{} exists, do you want to overwrite?'.format(dest_file), default='no'):
