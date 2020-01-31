@@ -23,7 +23,7 @@ setup(
     license='GNU',
     description='Quickly generate application from django model files',
     long_description=README,
-    url='https://www.bapp.ro/',
+    url='https://github.com/opencbsoft/django-app-bootstrap',
     author='Cristian Boboc',
     author_email='cristi@cbsoft.ro',
     install_requires=[],

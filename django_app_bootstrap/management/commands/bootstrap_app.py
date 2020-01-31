@@ -114,7 +114,7 @@ class Command(BaseCommand):
                     if 'Many' not in str(field):
                         full_model['fields'].append(field_name)
                 context['models'].append(full_model)
-        bootstrap_folder = getattr(settings, 'BOOTSRAP_FOLDER', os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'bootstrap_files'))
+        bootstrap_folder = getattr(settings, 'BOOTSTRAP_FOLDER', os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'bootstrap_files'))
         for item in os.listdir(bootstrap_folder):
             if not '__pycache__' in item:
                 if os.path.isdir(os.path.join(bootstrap_folder, item)):
