@@ -1,0 +1,3 @@
+include README.md
+recursive-include django_app_bootstrap/bootstrap_files *
+recursive-include django_app_bootstrap/management *

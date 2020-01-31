@@ -1,0 +1,21 @@
+from django.urls import path, include
+from rest_framework import routers
+
+from . import api
+from . import views
+
+app_name = '{{ selected_app }}'
+
+router = routers.DefaultRouter()
+{% for model in models %}
+router.register("{{ model.name|lower }}", api.{{ model.name }}ViewSet)
+{% endfor %}
+
+urlpatterns = [
+    path('api/v1/', include(router.urls)),
+    {% for model in models %}path("{{ model.name|lower }}/", views.{{ model.name }}ListView.as_view(), name="{{ model.name|lower }}_list"),
+    path("{{ model.name|lower }}/create/", views.{{ model.name }}CreateView.as_view(), name="{{ model.name|lower }}_create"),
+    path("{{ model.name|lower }}/detail/<int:pk>/", views.{{ model.name }}DetailView.as_view(), name="{{ model.name|lower }}_detail"),
+    path("{{ model.name|lower }}/update/<int:pk>/", views.{{ model.name }}UpdateView.as_view(), name="{{ model.name|lower }}_update"),
+    {% endfor %}
+]

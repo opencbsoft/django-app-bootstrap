@@ -1,0 +1,25 @@
+from django.views import generic
+from . import models
+from . import forms
+
+{% for model in models %}
+class {{model.name}}ListView(generic.ListView):
+    model = models.{{model.name}}
+    form_class = forms.{{model.name}}Form
+
+
+class {{model.name}}CreateView(generic.CreateView):
+    model = models.{{model.name}}
+    form_class = forms.{{model.name}}Form
+
+
+class {{model.name}}DetailView(generic.DetailView):
+    model = models.{{model.name}}
+    form_class = forms.{{model.name}}Form
+
+
+class {{model.name}}UpdateView(generic.UpdateView):
+    model = models.{{model.name}}
+    form_class = forms.{{model.name}}Form
+    pk_url_kwarg = "pk"
+{% endfor %}
